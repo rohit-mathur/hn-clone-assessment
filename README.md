@@ -20,12 +20,12 @@
 
 yarn install or npm install
 
-###Options
-####Start React Server
+### Options
+#### Start React Server
 ```
 yarn start or npm start
 ```
-####Start Express/Webpack server
+#### Start Express/Webpack server
 ```
 yarn run dev or npm run dev
 ```
