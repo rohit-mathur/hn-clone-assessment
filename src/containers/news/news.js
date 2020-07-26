@@ -24,6 +24,8 @@ export class News extends Component {
         this.hideArticle = this.hideArticle.bind(this);
         this.prev = this.prev.bind(this);
         this.next = this.next.bind(this);
+        // this.loadData = this.loadData.bind(this);
+        // this.loadData();
     }
 
     componentDidMount() {
@@ -43,15 +45,30 @@ export class News extends Component {
                     else {
                         axios.get('https://hn.algolia.com/api/v1/search')
                             .then((response) => {
-                                db.put('articles', response.data.hits, 'hits');
+                                const updatedPointsArray = response.data.hits.map(value => ({
+                                    ...value,
+                                    points: Math.round(Math.random() * 25),
+                                    objectID: Math.round(Math.random() * 10000).toString(),
+                                }))
+                                const fillArray = this.fillArray(updatedPointsArray)
+                                db.put('articles', fillArray, 'hits');
                                 this.setState({
-                                    newsArticles: response.data.hits,
+                                    newsArticles: fillArray,
                                     loading: false
                                 })
                             })
                     }
                 })
         })
+    }
+
+
+    fillArray(array) {
+        let arr = [];
+        array.forEach((item) => {
+            arr = [...arr, ...array]
+        })
+        return arr;
     }
 
     upVote(record) {
@@ -117,15 +134,33 @@ export class News extends Component {
         })
     }
 
+    goto(pageNumber) {
+        this.setState({
+            page: {
+                ...this.state.page,
+                number: pageNumber
+            }
+        }, () => this.props.history.push(`/${pageNumber}`))
+    }
+
 
     render() {
         const { newsArticles, page: { length, number }, loading } = this.state;
-
+        const startIndex = length * number - 10, endIndex = length;
         const allNews = newsArticles ? [...newsArticles] : [];
-        const displayNews = allNews.splice(length * number - 10, length * number)
-
+        const displayNews = allNews.splice(startIndex, endIndex);
+        const totalPages = [...Array(Math.ceil(newsArticles.length / length)).keys()].map(i => i + 1);
+        const displayPages = number > 2 ? totalPages.slice(number - 3, number + 2) : totalPages.slice(0, 5)
+        let labels = [], pointsData = []
+        for (let article in newsArticles) {
+            if (article === 50) {
+                break;
+            }
+            labels.push(newsArticles[article].objectID)
+            pointsData.push(newsArticles[article].points)
+        }
         const data = {
-            labels: newsArticles.map(article => article.objectID),
+            labels,
             datasets: [
                 {
                     label: 'Votes',
@@ -135,7 +170,7 @@ export class News extends Component {
                     backgroundColor: 'rgba(75,192,192,1)',
                     borderColor: 'rgba(0,0,0,1)',
                     borderWidth: 2,
-                    data: newsArticles.map(article => article.points)
+                    data: pointsData
                 }
             ]
         }
@@ -160,16 +195,23 @@ export class News extends Component {
                         displayNews={displayNews}
                         upVote={this.upVote}
                         hideArticle={this.hideArticle} />
-
-                    <div className="pagination-buttons">
-                        <button
-                            disabled={number === 1} onClick={this.prev}>Previous</button>
-                        <button
-                            disabled={newsArticles.length - (number * length) <= 0} onClick={this.next}>Next</button>
+                    <div className="pagination">
+                        <div className="table-record">
+                            <span>Showing {number * 10 - 9} - {number * 10} / {newsArticles.length}</span>
+                        </div>
+                        <div className="pagination-buttons">
+                            <button className="prev"
+                                disabled={number === 1} onClick={this.prev}>Previous</button>
+                            {
+                                displayPages.map(page => <span key={page} onClick={() => this.goto(page)} className={`page-number ${number === page ? 'active' : ''}`}>{page}</span>)
+                            }
+                            <button className="next"
+                                disabled={newsArticles.length - (number * length) <= 0} onClick={this.next}>Next</button>
+                        </div>
                     </div>
 
                 </div>
-                <Line data={data} height={150} />
+                <Line data={data} height={100} />
             </>
         )
     }

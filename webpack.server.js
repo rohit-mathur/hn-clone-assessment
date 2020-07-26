@@ -1,10 +1,12 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpackNodeExternals = require('webpack-node-externals');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
+
 module.exports = {
     target: 'node',
-    mode: 'development',
+    mode: 'production',
     entry: './server.js',
     output: {
         filename: 'bundle.js',
@@ -41,5 +43,20 @@ module.exports = {
         ]
     },
     externals: [webpackNodeExternals()],
-    plugins: [new MiniCssExtractPlugin()]
+    plugins: [
+        new MiniCssExtractPlugin(),
+        new CompressionPlugin({
+            filename: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: /\.(js|css|html|svg)$/,
+            threshold: 8192,
+            minRatio: 0.8
+        }),
+        new BrotliPlugin({ //brotli plugin
+            asset: '[path].br[query]',
+            test: /\.(js|css|html|svg)$/,
+            threshold: 10240,
+            minRatio: 0.8
+        })
+    ]
 }

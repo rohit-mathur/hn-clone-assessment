@@ -1,15 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+/* @import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'); */
 
 *{
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-display: swap;
     font-family: 'Roboto', sans-serif;
 }
 
+@font-face {
+    font-family: 'FontAwesome';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+    font-display: swap;
+  }
+
 .container{
     padding:10px;
+    margin:0 auto;
 }
 
 .news-table{
@@ -49,9 +59,13 @@
     color:#111;
     font-weight:700;
 }
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    margin:10px 0;
+}
 .pagination-buttons{
     text-align: right;
-    margin:10px 0;
 }
 .pagination-buttons button{
     color:#ff6600;
@@ -65,14 +79,19 @@
 .pagination-buttons button:disabled{
     color:#777;
 }
-.pagination-buttons button:nth-child(1)::after{
+.prev::after,.next::before{
     content:'';
     position:absolute;
-    right:0;
     top:0;
     width:2px;
     height:100%;
     background-color:#ff6600
+}
+.prev::after{
+    right: 0;
+}
+.next::before{
+    left:0;
 }
 
 .loader {
@@ -80,6 +99,17 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.active{
+    color:#fff;
+    background-color:#ff6600;
+    padding:5px;
+}
+.page-number{
+    display:inline-block;
+    margin:0 5px;
+    cursor:pointer;
 }
 
 @media screen and (min-width: 767px) {

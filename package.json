@@ -31,6 +31,7 @@
     "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "extract-text-webpack-plugin": "^3.0.2",
+    "global": "^4.4.0",
     "idb": "^5.0.4",
     "ignore-styles": "^5.0.1",
     "mini-css-extract-plugin": "^0.9.0",
@@ -41,6 +42,7 @@
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
+    "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-spinners": "^0.9.0",
@@ -79,6 +81,8 @@
     ]
   },
   "devDependencies": {
+    "brotli-webpack-plugin": "^1.1.0",
+    "compression-webpack-plugin": "^4.0.0",
     "css-loader": "^4.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
