@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+*{
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container{
+    padding:10px;
+}
+
+.news-table{
+    border:none;
+}
+
+.news-table thead tr {
+    background-color:#ff6600;
+}
+.news-table th{
+    vertical-align:bottom;
+    text-align:left;
+    color:#fff;
+    padding:5px;
+    font-size:14px;
+}
+.news-table tbody tr:nth-child(even) {
+    background-color:#ddd;
+}
+.news-table td{
+    padding:5px;
+}
+.news-table i{
+    cursor:pointer;
+}
+.text-center{
+    text-align: center;
+}
+
+.details-text{
+    font-size:14px;
+}
+.color-light{
+    color:#777;
+}
+.color-dark{
+    color:#111;
+    font-weight:700;
+}
+.pagination-buttons{
+    text-align: right;
+    margin:10px 0;
+}
+.pagination-buttons button{
+    color:#ff6600;
+    background-color:#fff;
+    font-weight:600;
+    font-size:14px;
+    padding:8px 15px;
+    border:none;
+    position:relative;
+}
+.pagination-buttons button:disabled{
+    color:#777;
+}
+.pagination-buttons button:nth-child(1)::after{
+    content:'';
+    position:absolute;
+    right:0;
+    top:0;
+    width:2px;
+    height:100%;
+    background-color:#ff6600
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 767px) {
+    .container{
+        width: 90%;
+    }
+  }
+
